@@ -14,7 +14,7 @@ class TodostuslibrosSpider(scrapy.Spider):
     def parse(self, response):
         for book in response.css("div.book-details"):
             yield {
-                'title' : book.css("h2.title a::text").get(),
+                'title' : book.css("h2.title a::text").get().strip(),
                 'author' : book.css("h3.author a::text").get(),
                 'data' : book.css("p.data::text").get()
             }
