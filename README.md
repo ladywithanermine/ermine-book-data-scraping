@@ -10,11 +10,11 @@
   - [Acknowledgments](#acknowledgments)
 # Project Title
 
-Learning how to use Scrapy with book reviews and data from GoodReas.
+Learning how to use Scrapy with book data from [Todostuslibros](http://www.todostuslibros.com) and other sites.
 
 ## Description
 
-An in-depth paragraph about your project and overview of use.
+This project aims to explore different uses of Scrapy to gather book data from several sites that will be added incrementally. The final objective, besides learning how to use Scrapy, is to build a dataset of book-related information to be used in separate data analysis and machine learning project.
 
 ## Getting Started
 
