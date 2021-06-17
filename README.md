@@ -10,11 +10,11 @@
   - [Acknowledgments](#acknowledgments)
 # Project Title
 
-Learning how to use Scrapy with book data from [Todostuslibros](http://www.todostuslibros.com) and other sites.
+Learning how to use Scrapy with book data taken from [Todostuslibros](http://www.todostuslibros.com) and other sites.
 
 ## Description
 
-This project aims to explore different uses of Scrapy to gather book data from several sites that will be added incrementally. The final objective, besides learning how to use Scrapy, is to build a dataset of book-related information to be used in separate data analysis and machine learning project.
+This project aims to explore different uses of Scrapy to gather book data from several sites that will be added incrementally as independent and/or (possibly) multi-site crawlers. The final objective, besides learning how to use Scrapy, is to build a dataset of book-related information to be used in a separate data analysis and machine learning project.
 
 ## Getting Started
 
