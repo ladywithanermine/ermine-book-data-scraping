@@ -12,6 +12,8 @@ BOT_NAME = 'todostuslibros'
 SPIDER_MODULES = ['todostuslibros.spiders']
 NEWSPIDER_MODULE = 'todostuslibros.spiders'
 
+TODOSTUSLIBROS_URL_LIST = ['https://www.todostuslibros.com/editorial/folio-gallimard']
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'todostuslibros (+http://www.yourdomain.com)'

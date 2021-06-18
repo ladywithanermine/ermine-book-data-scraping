@@ -1,15 +1,11 @@
 import scrapy
-
+import todostuslibros.settings as settings
 
 class TodostuslibrosSpider(scrapy.Spider):
     name = "todostuslibros"
 
     def start_requests(self):
-        urls = [
-            #'https://www.todostuslibros.com/materia/ficcion-moderna-y-contemporanea_FA'
-            'https://www.todostuslibros.com/editorial/folio-gallimard' # Tiene pocos resultados
-        ]
-        for url in urls:
+        for url in settings.TODOSTUSLIBROS_URL_LIST:
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
