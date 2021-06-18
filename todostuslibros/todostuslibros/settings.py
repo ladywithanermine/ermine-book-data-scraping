@@ -13,6 +13,7 @@ SPIDER_MODULES = ['todostuslibros.spiders']
 NEWSPIDER_MODULE = 'todostuslibros.spiders'
 
 TODOSTUSLIBROS_URL_LIST = ['https://www.todostuslibros.com/editorial/folio-gallimard']
+TODOSTUSLIBROS_BOOK_DETAIL_URL_TEMPLATE = 'https://www.todostuslibros.com/isbn/{isbn}'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
