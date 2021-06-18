@@ -6,7 +6,6 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
-import html
 import re
 class TodostuslibrosCleanupPipeline:
     def process_item(self, item, spider):
