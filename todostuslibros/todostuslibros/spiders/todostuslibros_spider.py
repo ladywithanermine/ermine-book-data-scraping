@@ -22,10 +22,26 @@ class TodostuslibrosSpider(scrapy.Spider):
             yield scrapy.Request(url=book_detail_url, callback=self.parse_book_detail, cb_kwargs={'meta':meta})
         
         yield from response.follow_all(css='nav a.page-link[rel="next"]::attr("href")', callback=self.parse_book_list)
+        
 
     def parse_book_detail(self, response, meta):
         meta['price'] = response.css('.book-price strong::text').get()
-        meta['tags'] = response.css('.row.materias a::text').get()
+        meta['tags'] = response.css('.row.materias a::text').getall()
         meta['bookstores_number'] = int(response.css('.before-title::text').re(r'\d+')[0])
 
+        meta['binding'] = self._get_book_table_data(response, 'Encuadernación')
+        meta['publishing_country'] = self._get_book_table_data(response, 'País de publicación')
+        meta['publishing_language'] = self._get_book_table_data(response, 'Idioma de publicación')
+        meta['original_language'] = self._get_book_table_data(response, 'Idioma original')
+        meta['ean'] = self._get_book_table_data(response, 'EAN')
+        meta['publication_date'] = self._get_book_table_data(response, 'Fecha publicación')
+
+        num_pages = self._get_book_table_data(response, 'Nº páginas')
+        meta['num_pages'] = int(num_pages) if num_pages else None
+
         yield meta
+
+    def _get_book_table_data(self, response, text):
+        value = response.xpath(f'//dt[contains(text(),"{text}")]/following-sibling::dd/text()').get() or ''
+        return value.strip()
+
