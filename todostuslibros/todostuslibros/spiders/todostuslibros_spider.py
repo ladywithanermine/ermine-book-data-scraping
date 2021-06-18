@@ -6,7 +6,8 @@ class TodostuslibrosSpider(scrapy.Spider):
 
     def start_requests(self):
         urls = [
-            'https://www.todostuslibros.com/materia/ficcion-moderna-y-contemporanea_FA'
+            #'https://www.todostuslibros.com/materia/ficcion-moderna-y-contemporanea_FA'
+            'https://www.todostuslibros.com/editorial/folio-gallimard' # Tiene pocos resultados
         ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
@@ -19,4 +20,4 @@ class TodostuslibrosSpider(scrapy.Spider):
                 'data' : book.css("p.data::text").get()
             }
 
-        #yield from response.follow_all(css='ul.pager a', callback=self.parse)
+        yield from response.follow_all(css='nav a.page-link[rel="next"]::attr("href")', callback=self.parse)
