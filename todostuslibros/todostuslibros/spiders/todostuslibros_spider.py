@@ -41,6 +41,7 @@ class TodostuslibrosSpider(scrapy.Spider):
         meta['num_pages'] = int(num_pages) if num_pages else None
 
         img_url = response.css('.book-image img::attr(src)').get()
+        meta['img_url'] = img_url if 'img-no-disponible' not in img_url else None
     
         yield meta
 
