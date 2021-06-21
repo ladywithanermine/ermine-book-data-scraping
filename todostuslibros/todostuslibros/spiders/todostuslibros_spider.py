@@ -11,8 +11,8 @@ class TodostuslibrosSpider(scrapy.Spider):
     def parse_book_list(self, response):
         for book in response.css("div.book-details"):
             meta = {}
-            meta['title'] = book.css("h2.title a::text").get().strip(),
-            meta['author'] = book.css("h3.author a::text").get(),
+            meta['title'] = book.css("h2.title a::text").get().strip()
+            meta['author'] = book.css("h3.author a::text").get()
             data = book.css("p.data::text").get().split('/')
             meta['publisher'] = data[0].strip()
             meta['isbn'] = re.sub(r'\D', '', data[1].strip())
@@ -25,7 +25,8 @@ class TodostuslibrosSpider(scrapy.Spider):
         
 
     def parse_book_detail(self, response, meta):
-        meta['price'] = response.css('.book-price strong::text').get()
+        price = response.css('.book-price strong::text').get()
+        meta['price'] = re.sub(r'(\d+),(\d+)€', '\\1.\\2', price) if price else None
         meta['tags'] = response.css('.row.materias a::text').getall()
         meta['bookstores_number'] = int(response.css('.before-title::text').re(r'\d+')[0])
 
@@ -39,8 +40,8 @@ class TodostuslibrosSpider(scrapy.Spider):
         num_pages = self._get_book_table_data(response, 'Nº páginas')
         meta['num_pages'] = int(num_pages) if num_pages else None
 
-        meta['img_url'] = response.css('.book-image img::attr(src)').get()
-
+        img_url = response.css('.book-image img::attr(src)').get()
+    
         yield meta
 
     def _get_book_table_data(self, response, text):
