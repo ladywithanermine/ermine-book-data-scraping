@@ -27,10 +27,10 @@ class TodostuslibrosSpider(scrapy.Spider):
     def parse_book_detail(self, response, meta):
         price = response.css('.book-price strong::text').get()
         meta['price'] = re.sub(r'(\d+),(\d+)€', '\\1.\\2', price) if price else None
-        meta['tags'] = response.css('.row.materias a::text').getall()
-        meta['bookstores_number'] = int(response.css('.before-title::text').re(r'\d+')[0])
 
-        meta['binding'] = self._get_book_table_data(response, 'Encuadernación')
+        binding = self._get_book_table_data(response, 'Encuadernación')
+        meta['binding'] = binding if 'No definida' not in binding else None
+
         meta['publishing_country'] = self._get_book_table_data(response, 'País de publicación')
         meta['publishing_language'] = self._get_book_table_data(response, 'Idioma de publicación')
         meta['original_language'] = self._get_book_table_data(response, 'Idioma original')
@@ -43,6 +43,9 @@ class TodostuslibrosSpider(scrapy.Spider):
         img_url = response.css('.book-image img::attr(src)').get()
         meta['img_url'] = img_url if 'img-no-disponible' not in img_url else None
     
+        meta['tags'] = response.css('.row.materias a::text').getall()
+        meta['bookstores_number'] = int(response.css('.before-title::text').re(r'\d+')[0])
+
         yield meta
 
     def _get_book_table_data(self, response, text):
