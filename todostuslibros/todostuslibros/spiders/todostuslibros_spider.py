@@ -39,6 +39,8 @@ class TodostuslibrosSpider(scrapy.Spider):
         num_pages = self._get_book_table_data(response, 'Nº páginas')
         meta['num_pages'] = int(num_pages) if num_pages else None
 
+        meta['img_url'] = response.css('.book-image img::attr(src)').get()
+
         yield meta
 
     def _get_book_table_data(self, response, text):
