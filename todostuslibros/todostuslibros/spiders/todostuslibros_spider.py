@@ -26,7 +26,7 @@ class TodostuslibrosSpider(scrapy.Spider):
 
     def parse_book_detail(self, response, meta):
         price = response.css('.book-price strong::text').get()
-        meta['price'] = re.sub(r'(\d+),(\d+)€', '\\1.\\2', price) if price else None
+        meta['price'] = float(re.sub(r'(\d+),(\d+)€', '\\1.\\2', price)) if price else None
 
         binding = self._get_book_table_data(response, 'Encuadernación')
         meta['binding'] = binding if 'No definida' not in binding else None
