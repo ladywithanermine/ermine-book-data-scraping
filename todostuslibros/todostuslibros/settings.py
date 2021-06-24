@@ -12,7 +12,7 @@ BOT_NAME = 'todostuslibros'
 SPIDER_MODULES = ['todostuslibros.spiders']
 NEWSPIDER_MODULE = 'todostuslibros.spiders'
 
-TODOSTUSLIBROS_URL_LIST = ['https://www.todostuslibros.com/editorial/folio-gallimard']
+TODOSTUSLIBROS_URL_LIST = ['https://www.todostuslibros.com/materia/ficcion-moderna-y-contemporanea_FA']
 TODOSTUSLIBROS_BOOK_DETAIL_URL_TEMPLATE = 'https://www.todostuslibros.com/isbn/{isbn}'
 
 
@@ -28,9 +28,9 @@ CONCURRENT_REQUESTS = 20
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 0
 # The download delay setting will honor only one of:
-CONCURRENT_REQUESTS_PER_DOMAIN = 16
+#CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
