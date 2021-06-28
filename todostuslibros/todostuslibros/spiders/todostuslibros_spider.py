@@ -42,6 +42,8 @@ class TodostuslibrosSpider(scrapy.Spider):
 
         img_url = response.css('.book-image img::attr(src)').get()
         meta['img_url'] = img_url if 'img-no-disponible' not in img_url else None
+
+        meta['synopsis'] = response.css('#synopsis > div > div.col-md-9.synopsis p::text').get()
     
         meta['tags'] = response.css('.row.materias a::text').getall()
         meta['bookstores_number'] = int(response.css('.before-title::text').re(r'\d+')[0])
