@@ -13,6 +13,13 @@ SPIDER_MODULES = ['todostuslibros.spiders']
 NEWSPIDER_MODULE = 'todostuslibros.spiders'
 
 TODOSTUSLIBROS_URL_LIST = ['https://www.todostuslibros.com/materia/ficcion-moderna-y-contemporanea_FA']
+#  URLs for other categories:
+#  Mistery and crime: https://www.todostuslibros.com/materia/genero-policiaco-y-misterio_FF
+#  Fantasy: https://www.todostuslibros.com/materia/fantasia_FM
+#  Classical Science fiction: https://www.todostuslibros.com/materia/ciencia-ficcion-clasica_FLC
+#  Mistery and suspense (including Stephen King): https://www.todostuslibros.com/materia/obra-de-misterio-y-suspense_FH
+#  Terror and ghosts: https://www.todostuslibros.com/materia/cuentos-de-terror-y-fantasmas_FK
+#
 TODOSTUSLIBROS_BOOK_DETAIL_URL_TEMPLATE = 'https://www.todostuslibros.com/isbn/{isbn}'
 
 
