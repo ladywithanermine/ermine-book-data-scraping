@@ -1,6 +1,7 @@
 import scrapy
 import todostuslibros.settings as settings
 import re
+from urllib.parse import urlparse
 class TodostuslibrosSpider(scrapy.Spider):
     name = "todostuslibros"
 
@@ -48,9 +49,45 @@ class TodostuslibrosSpider(scrapy.Spider):
         meta['tags'] = response.css('.row.materias a::text').getall()
         meta['bookstores_number'] = int(response.css('.before-title::text').re(r'\d+')[0])
 
+        isbn_site_url = settings.ISBN_DATABASE_URL
+        formdata = settings.ISBN_QUERY_FORMDATA
+        formdata['params.cisbnExt'] = meta['isbn']
+        yield scrapy.FormRequest(url=isbn_site_url, callback=self.query_isbn_detail, formdata=formdata, cb_kwargs={'meta':meta})
+
         yield meta
 
     def _get_book_table_data(self, response, text):
         value = response.xpath(f'//dt[contains(text(),"{text}")]/following-sibling::dd/text()').get() or ''
         return value.strip()
 
+    def query_isbn_detail(self, response, meta):
+        isbn_detail_url_relative = response.css('div.camposCheck a::attr(href)').extract()[0]
+        parsed_response_url = urlparse(response.url)
+
+        isbn_detail_url = parsed_response_url.scheme + '://' + parsed_response_url.netloc + isbn_detail_url_relative
+
+        # Invoke URL to retrieve details
+        yield scrapy.Request(url=isbn_detail_url, callback=self.parse_isbn_detail, cb_kwargs={'meta':meta})
+
+    def parse_isbn_detail(self, response, meta):
+        # Get ISBN data from the page
+        
+        publication_language = response.xpath('//*[@id="formularios"]/div[2]/table/tr[3]/td/span/text()').get()
+        edition_date = response.xpath('//*[@id="formularios"]/div[2]/table/tr[4]/td/text()').get()
+        printing_date = response.xpath('//*[@id="formularios"]/div[2]/table/tr[5]/td/text()').get()
+        description = response.xpath('//*[@id="formularios"]/div[2]/table/tr[7]/td/text()').get()
+        binding = response.xpath('//*[@id="formularios"]/div[2]/table/tr[8]/td/text()').get()
+        subject = response.xpath('normalize-space(//*[@id="formularios"]/div[2]/table/tr[10]/td/span/text())').get()
+        price = response.xpath('//*[@id="formularios"]/div[2]/table/tr[11]/td/text()').get()
+        formatted_price = float(re.sub(r'(\d+),(\d+)\sEuros', '\\1.\\2', price)) if price else None
+
+        # Update the metadata and insert new fields
+        meta['publishing_language'] = meta['publishing_language'] if meta['publishing_language'] else publication_language
+        meta['publication_date'] = meta['publication_date'] if meta['publication_date'] else edition_date
+        meta['printing_date'] = printing_date
+        meta['edition_description'] = description
+        meta['binding'] = meta['binding'] if meta['binding'] else binding
+        meta['isbn_classification'] = subject
+        meta['price'] = meta['price'] if meta['price'] else formatted_price
+
+        yield meta

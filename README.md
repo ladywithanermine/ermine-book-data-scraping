@@ -85,6 +85,8 @@ Every genre query (one or more URLs) is crawled independently and stored in a JS
  FEED_URI # Name of the JSON output file
 ```
 
+Of course, it would be possible to crawl the whole list of URLs but, I have decided to crawl genre by genre for the sake of crawling time and in order to have genre-separated datasets for further specialized analysis.
+
 ### Output data 
 The crawler retrieves the following information for the books included in the selected genres:
 
